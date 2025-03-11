@@ -1,16 +1,11 @@
-// Enum for student status
-enum StudentStatus {
-  Active,
-  Graduated,
-  Suspended,
-}
+// SOLUTION
 
 // Interface for a student
 interface Student {
   id: number;
   name: string;
   gpa: number;
-  status: StudentStatus;
+  status: string;
 }
 
 // Interface for a course
@@ -33,18 +28,25 @@ class DataManager<T> {
   }
 }
 
+
 // Type guard to check if an object is a Student
 function isStudent(obj: any): obj is Student {
   return "gpa" in obj;
 }
 
-// Create DataManager instances
-const studentManager = new DataManager<Student>();
-const courseManager = new DataManager<Course>();
+const mixedList = [ {id: 1, name: "Alice", gpa: 3.8, status: "active"},
+                    {id: 2, name: "Bob", gpa: 3.2, status: "active"},
+                    {code: "CS451", title: "Programming Languages", credits: 3},
+                    {code: "TS101", title: "Intro to TypeScript", credits: 1}
+                  ];
+
+
+const studentList = mixedList.filter(isStudent);
+
 
 // Add some students
-studentManager.add({ id: 1, name: "Alice", gpa: 3.8, status: StudentStatus.Active });
-studentManager.add({ id: 2, name: "Bob", gpa: 3.2, status: StudentStatus.Graduated });
+studentManager.add({ id: 1, name: "Alice", gpa: 3.8, status: "active" });
+studentManager.add({ id: 2, name: "Bob", gpa: 3.2, status: "active" });
 
 // Add some courses
 courseManager.add({ code: "TS101", title: "Intro to TypeScript", credits: 3 });
