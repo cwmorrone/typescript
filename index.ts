@@ -42,20 +42,32 @@ const isCourse: isFunc = obj =>{
     return "title" in obj;
 }
 
-// functional way of doing it
-// is there some way to remove isStudent so that we can pass in a function that defines whay type of object we are filtering
+/* purpose: set up the structure of our filtering functions */
 type filterFunc = (list: Entry[]) => Entry[];
-const filterListStudent: filterFunc = list =>{
+/* purpose: filter lists by element type */
+const filterListStudent: filterFunc = list => {
     if(list.length === 0) return [];
     if(!isStudent(list[0])) return filterListStudent(list.slice(1));
     else return [list[0], ...filterListStudent(list.slice(1))];
 }
-
-const filterListCourse: filterFunc = list =>{
+const filterListCourse: filterFunc = list => {
     if(list.length === 0) return [];
     if(!isCourse(list[0])) return filterListCourse(list.slice(1));
     else return [list[0], ...filterListCourse(list.slice(1))];
 }
+
+/* purpose: set up the structure of our filter builder */
+type filterBuilder = (isWhat: isFunc) => filterFunc;
+/* purpose: create a filter function according to what type we are looking for */
+const filterBy: filterBuilder = f => {
+    const filter: filterFunc = list => {
+        if(list.length === 0) return [];
+        if(!f(list[0]))       return filter(list.slice(1));
+        else                  return [list[0], ...filter(list.slice(1))];
+    }
+    return filter;
+}
+
 
 
 
@@ -63,8 +75,14 @@ const filterListCourse: filterFunc = list =>{
 const studentList: Entry[] = filterListStudent(mixedList);
 const courseList: Entry[] = filterListCourse(mixedList);
 
-console.log("Student list2", studentList);
+const studentListFilterBy: Entry[] = filterBy(isStudent)(mixedList);
+const courseListFilterBy: Entry[] = filterBy(isCourse)(courseList);
+
+console.log("Student list", studentList);
+console.log("Student ListFilterBy", studentListFilterBy);
 console.log("Course list", courseList);
+console.log("Course ListFilterBy", courseListFilterBy);
+
 
 
 
