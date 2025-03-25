@@ -42,8 +42,10 @@ const isCourse: isFunc = obj =>{
     return "title" in obj;
 }
 
+
 /* purpose: set up the structure of our filtering functions */
 type filterFunc = (list: Entry[]) => Entry[];
+
 /* purpose: filter lists by element type */
 const filterListStudent: filterFunc = list => {
     if(list.length === 0) return [];
@@ -58,6 +60,7 @@ const filterListCourse: filterFunc = list => {
 
 /* purpose: set up the structure of our filter builder */
 type filterBuilder = (isWhat: isFunc) => filterFunc;
+
 /* purpose: create a filter function according to what type we are looking for */
 const filterBy: filterBuilder = f => {
     const filter: filterFunc = list => {
@@ -68,20 +71,29 @@ const filterBy: filterBuilder = f => {
     return filter;
 }
 
-
-
-
 /* purpose: compute and output our results  */
 const studentList: Entry[] = filterListStudent(mixedList);
 const courseList: Entry[] = filterListCourse(mixedList);
 
 const studentListFilterBy: Entry[] = filterBy(isStudent)(mixedList);
-const courseListFilterBy: Entry[] = filterBy(isCourse)(courseList);
+const courseListFilterBy: Entry[] = filterBy(isCourse)(mixedList);
 
 console.log("Student list", studentList);
 console.log("Student ListFilterBy", studentListFilterBy);
 console.log("Course list", courseList);
 console.log("Course ListFilterBy", courseListFilterBy);
+
+
+
+/* an example of what we can do with our filter builder
+   find only those students with high GPAs
+ */
+const isHighGPA: isFunc = obj =>{
+    return "gpa" in obj && obj.gpa > 3.5;
+}
+
+const highGPAStudents: Entry[] = filterBy(isHighGPA)(mixedList);
+console.log("High GPA students:", highGPAStudents);
 
 
 
