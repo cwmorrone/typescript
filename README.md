@@ -18,6 +18,7 @@ Task 3: Implement isCourse Function
 
 This function should return true if the object contains a property unique to Course.
         Return false otherwise.
+        
 Task 4: Extract Only Courses
         Use the filter method with isCourse to extract only Course objects from mixedList and store them in courseList.
 
