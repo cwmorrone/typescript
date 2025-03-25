@@ -2,7 +2,9 @@ Overview: TypeScript is a strongly typed superset of JavaScript that adds static
 
 To run typescript files:
 in your terminal, run tsc filename.ts-this creates a js file with the same name in your working directory
+
 run node filename.js to compile the converted code 
+
 Task 1: Complete the Course Interface
 Modify the Course interface to include the following properties:
         ID: string to represent course ID (e.g., CS451).
