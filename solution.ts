@@ -21,7 +21,7 @@ const mixedList: Entry[] = [{id: 1, name: "Alice", gpa: 3.8, status: "current"},
                             {id: 2, name: "Bob", gpa: 3.2, status: "graduated"},
                             {id: "CS451", title: "Programming Languages", credits: 3},
                             {id: "TS101", title: "Intro to TypeScript", credits: 1},
-                            {id: 3, name: "Charlie", gpa: 3.5, statucos: "current"},
+                            {id: 3, name: "Charlie", gpa: 3.5, status: "current"},
                             {id: 4, name: "Diana", gpa: 3.9, status: "current"},
                             {id: 5, name: "Ethan", gpa: 3.1, status: "graduated"},
                             {id: 6, name: "Fiona", gpa: 3.7, status: "current"},
@@ -86,7 +86,7 @@ const isStudent: isFunc = obj => {
 const isCourse: isFunc = obj =>{
     return "title" in obj;
 }
-/*  purpose: determine if an Entry is a Student who is current and has a high GPA
+/*  purpose: determine if an Entry is a Student whose status is current and has a high GPA (gpa > 3.5)
 *   input: an Entry
 *   output: a boolean
 *      */
@@ -98,13 +98,13 @@ const isHighGPA: isFunc = obj =>{
 /* the filter function takes a list of Entries and returns a list of Entries */
 type filterFunc = (list: Entry[]) => Entry[];
 
-/*  purpose: filter lists by element type
+/*  purpose: filter lists by element type. use recursion.
 *   input: a list of Entries
-*   output: a list of only Student Entries
+*   output: a list of all Student Entries found in the input list
 * */
 const filterListStudent: filterFunc = list => {
     if(list.length === 0)           return [];
-    else if(!isStudent(list[0]))    return filterListStudent(list.slice(1));
+    if(!isStudent(list[0]))    return filterListStudent(list.slice(1));
     else                            return [list[0], ...filterListStudent(list.slice(1))];
 }
 /*  purpose: filter lists by element type
@@ -123,7 +123,7 @@ const filterListCourse: filterFunc = list => {
 *  */
 type filterBuilder = (f: isFunc) => filterFunc;
 
-/*  purpose: create a filter function according to what type we are looking for
+/*  purpose: create a filter function according to how we want to filter the list
 *   input: an isFunc
 *   output: a filterFunc
 *  */
@@ -151,13 +151,13 @@ const courseListFilterBy: Entry[] = filterBy(isCourse)(mixedList);
 const highGPAStudents: Entry[] = filterBy(isHighGPA)(mixedList);
 
 
-console.log("Student list via filterListStudent: \n", studentList);
-console.log("Student list via filterBy: \n", studentListFilterBy);
+console.log("Student list via filterListStudent: ", studentList);
+console.log("Student list via filterBy: ", studentListFilterBy);
 
-console.log("Course list via filterList", courseList);
-console.log("Course list via filterBy", courseListFilterBy);
+console.log("Course list via filterList: ", courseList);
+console.log("Course list via filterBy: ", courseListFilterBy);
 
-console.log("High GPA students:", highGPAStudents);
+console.log("High GPA students: ", highGPAStudents);
 
 
 
