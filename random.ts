@@ -1,5 +1,4 @@
 
-//github token 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
 
 type stringOrNum = string | number;
 
